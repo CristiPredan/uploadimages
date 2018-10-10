@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-uploader',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class FileuploaderComponent {
 
-  constructor() { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
   }
@@ -18,7 +19,15 @@ export class FileuploaderComponent {
       console.log(elem.files[0]);
       let formData = new FormData();
       formData.append('file', elem.files[0]);
+
+      this.http.post('http://localhost/angular-php/script.php', formData)
+      .subscribe((data) => {
+        console.log('Got some data from backend', data);
+      }, (error) => {
+        console.log('Error!', error);
+      });
+
+      }
+
     }
   }
-
-}
